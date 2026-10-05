@@ -203,6 +203,63 @@
        (o inserta un <img> dentro del div) para mostrar tus trabajos reales */
     background-size:cover;
     background-position:center;
+    cursor:pointer;
+    overflow:hidden;
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .gallery-item:active{
+    transform:scale(.94);
+  }
+  @media (hover:hover){
+    .gallery-item:hover{
+      transform:scale(1.04);
+      box-shadow:0 10px 22px -10px rgba(43,33,29,.45);
+    }
+  }
+
+  /* ---------- Lightbox (vista ampliada al seleccionar una foto) ---------- */
+  .lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(43,33,29,.85);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .3s ease;
+    z-index:999;
+  }
+  .lightbox.active{
+    opacity:1;
+    pointer-events:auto;
+  }
+  .lightbox-img{
+    width:100%;
+    max-width:420px;
+    aspect-ratio:1/1;
+    border-radius:16px;
+    background-size:cover;
+    background-position:center;
+    transform:scale(.85);
+    transition:transform .35s ease;
+  }
+  .lightbox.active .lightbox-img{
+    transform:scale(1);
+  }
+  .lightbox-close{
+    position:absolute;
+    top:28px;
+    right:28px;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#fff;
+    border:none;
+    font-size:18px;
+    color:var(--ink);
+    cursor:pointer;
   }
   .gallery-item:nth-child(1){background:linear-gradient(160deg,#E9C6C0,#D8A8A2);}
   .gallery-item:nth-child(2){background:linear-gradient(160deg,#EAD9C8,#D9BE9F);}
@@ -365,12 +422,12 @@
                 (arriba, .gallery-item:nth-child) por background-image:url('foto.jpg')
              b) o insertar <img src="foto.jpg" alt="Trabajo realizado"> dentro
                 de cada div de abajo, quitando el estilo de fondo. -->
-        <div class="gallery-item"></div>
-        <div class="gallery-item"></div>
-        <div class="gallery-item"></div>
-        <div class="gallery-item"></div>
-        <div class="gallery-item"></div>
-        <div class="gallery-item"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"></div>
+        <div class="gallery-item" onclick="openLightbox(this)"></div>
       </div>
       <p class="gallery-note">Ver más trabajos en <a href="https://www.instagram.com/nohely_beauty_loft?stkn=MW14bnUyNWt6aHR6ZA%3D%3D" target="_blank"><!-- CAMBIAR AQUÍ: usuario de Instagram -->@nohely_beauty_loft</a></p>
     </div>
@@ -423,6 +480,24 @@
     <!-- CAMBIAR AQUÍ: nombre del negocio en el pie de página -->
     © 2026 Nohely Beauty · Todos los derechos reservados
   </footer>
+
+  <!-- Lightbox: se abre al tocar una foto de la galería -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
+    <div class="lightbox-img" id="lightboxImg"></div>
+  </div>
+
+  <script>
+    function openLightbox(el){
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lightboxImg');
+      img.style.background = el.style.background || getComputedStyle(el).backgroundImage;
+      lb.classList.add('active');
+    }
+    function closeLightbox(e){
+      document.getElementById('lightbox').classList.remove('active');
+    }
+  </script>
 
 </body>
 </html>
