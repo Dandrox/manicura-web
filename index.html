@@ -207,6 +207,12 @@
     overflow:hidden;
     transition:transform .35s ease, box-shadow .35s ease;
   }
+  .gallery-item img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
   .gallery-item:active{
     transform:scale(.94);
   }
@@ -509,7 +515,12 @@
     function openLightbox(el){
       const lb = document.getElementById('lightbox');
       const img = document.getElementById('lightboxImg');
-      img.style.background = el.style.background || getComputedStyle(el).backgroundImage;
+      const innerImg = el.querySelector('img');
+      if(innerImg){
+        img.style.backgroundImage = `url('${innerImg.getAttribute('src')}')`;
+      } else {
+        img.style.background = el.style.background || getComputedStyle(el).backgroundImage;
+      }
       lb.classList.add('active');
     }
     function closeLightbox(e){
